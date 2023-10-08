@@ -21,7 +21,7 @@ The [result_plot](result_plot/) folder contains all figures in paper.
 
 ## `code`
 
-- The [step01_ train_val_test_GNN](step01_ train_val_test_GNN/) folder contains our proposed GNN model, and the process of training, validating, and testing the model
+- The [step01_ train_val_test_GNN](step01_train_val_test_GNN/) folder contains our proposed GNN model, and the process of training, validating, and testing the model
 
   Run the GNN model by
 
@@ -35,7 +35,7 @@ The [result_plot](result_plot/) folder contains all figures in paper.
 
   Add `--get-result` to save the predicted result in `data/result_out` folder
 
-- The [step02_ get_SC_FC_coupling](step02_ get_SC_FC_coupling/) folder contains codes to generate results and figures of *Fig. 2. Structure-function coupling by GNN* and  *Fig. S1* .
+- The [step02_ get_SC_FC_coupling](step02_get_SC_FC_coupling/) folder contains codes to generate results and figures of *Fig. 2. Structure-function coupling by GNN* and  *Fig. S1* .
 
   Run `get_SC_mask.m` to get SC masks. 
 
