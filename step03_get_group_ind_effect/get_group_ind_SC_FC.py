@@ -120,9 +120,3 @@ if __name__ == '__main__':
     SC_FC_inter_r = get_intermatrix_SC_FC(SC, FC, SC_mask)
     np.save('../data/result_out_2/' + dataset_type + '/SC/'+dataset_type + '_inter_matrix_SC_FC_' + str(args.mask_type) +'.npy', SC_FC_inter_r)
 
-    SC_FC_match_roi, SC_FC_mismatch_roi, SC_FC_gp, SC_FC_ind, SC_FC_ind_t, SC_FC_ind_p = get_roi_group_ind_result_SC_FC(SC, FC, SC_mask)
-
-    with open(
-            '../data/result_out_2/' + dataset_type + '/SC/'+dataset_type + '_roi_gp_ind_t_p_' +  str(args.mask_type) + '.pickle',
-            'wb') as in_data:
-        pickle.dump((SC_FC_match_roi, SC_FC_mismatch_roi, SC_FC_gp, SC_FC_ind, SC_FC_ind_t, SC_FC_ind_p), in_data, pickle.HIGHEST_PROTOCOL)
