@@ -29,7 +29,7 @@ def main(args):
     print(dataset_type, " dataset")
 
 
-    if dataset_type == 'HCPA':
+    if dataset_type == 'HCPYA':
         with open('/home/cuizaixu_lab/chenpeiyu/DATA_C/project/SC_FC_Pred/preprocessed_data/final/HCPA_SC_FC_reSC_info_245_final.pickle', 'rb') as out_data:
                 (SC, FC, re_SC, info) = pickle.load(out_data)
         SC_train, SC_test, FC_train, FC_test, re_SC_train, re_SC_test, = train_test_split(SC, FC, re_SC, test_size=0.5, random_state=0)
