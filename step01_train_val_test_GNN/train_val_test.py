@@ -71,6 +71,7 @@ def main(args):
 
     for times in range(1):
 
+        avg_corr = 0
         if args.if_kfold:
             kfold = KFold(n_splits=5, shuffle=True, random_state=args.seed)
 
@@ -102,9 +103,20 @@ def main(args):
                     train_model(args, model, device, train_loader, optimizer, epoch)
                     if epoch == args.epochs:
                         temp_corr = test_model(model, device, test_loader)
+                        avg_corr += temp_corr
 
                     time_end = time.time()
                     print('test_epoch', time_end - time_start, 's')
+
+            hyper_parameter = {'batch_size': args.batch_size,'lr': args.lr, 'dim': args.conv_dim, 'layer_num': args.layer_num, 'epochs': args.epochs, 'rewired': args.rewired}
+            file_path = "/home/cuizaixu_lab/chenpeiyu/DATA_C/project/SC_FC_Pred/HCPA_parameter_search/result/" + "b{}lr{}g{}ep{}d{}re{}.csv".format(*list(hyper_parameter.values()))
+
+
+            avg_corr = avg_corr / 5
+
+            with open(file_path, "a", newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow([args.seed, avg_corr])
 
 
         else:

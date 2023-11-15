@@ -1,84 +1,86 @@
-# GNN_SC_FC
+# GNN_SC_FC_Coupling
 
-Data and codes for our paper **""**.
+Data and codes for our paper ***Group-common and individual-specific effects of structure-function coupling in human brain networks with graph neural network***, including
 
-connectome matrices of  *group-averaged structural, functional, predicted functional connectivity* matrices,  for the **HCP-D** and **HCP-YA** (typically referred as **'HCP'**) datasets using `Schaefer-400` (7 Networks order).  See [data](data/) for more details.
+* Training and validating the proposed Graph neural network(GNN) framework,
+
+* Connectome matrices of  *group-averaged structural (SC), functional (FC), predicted functional connectivity (PredFC)* matrices,  
+
+* Group and individual effects of the regional structure-function coupling, 
+
+for the **HCP-D** and **HCP-YA** (typically referred as **'HCP'**) datasets using `Schaefer-400` (7 Networks order). 
+
+ See [data](data/) for more details. 
+
+## Dependencies
+
+The graph neural network is implemented in Pytorch  for CUDA 1.31.1 (https://pytorch.org/) , pyTorch Geometric  for CUDA 2.2.0 (https://pytorch-geometric.readthedocs.io/en/latest/) at Python 3.10. Scikit-learn (http://scikit-learn.org/stable/), Scipy (https://scipy.org/), and Brainconnectivity toolbox (https://github.com/aestrivex/bctpy) are also necessary for model training and testing.
+
+The visualization is implemented by Python 3.10, Matlab 2023a, and R 4.2.1. 
 
 ## `data`
-- The [sub_info](data/info/sub_info) folder contains the subject information (`sub_id`,`age` and `gender`) used in this study.
-- The [info](data/info) folder contains the SC_mask, SA rank
-- The [SC_FC_PredFC_matrix](data/SC_FC_PredFC_matrix) folder contains *group-averaged structural, functional, predicted functional connectivity* matrices.
+- The [sub_info](data/info/sub_info) folder contains all the subject information (`subID`,`age` and `gender`) in this study as well as the `sub_id` of the samples in the testing set.
+- The [info](data/info) folder contains the Sensorimotor-association axis ranks and the spin test null distributions for Schaefer 200 and 400.
+- The [SC_FC_PredFC_matrix](data/SC_FC_PredFC_matrix) folder contains group-averaged SC, FC, PredFC matrices.
 - The [preprocessed_data](data/preprocessed_data) folder contains the preprocessed SC, FC data (please put your SC, FC here in pickle)
-- The [result_out_1](data/result_out_1) folder contains the GNN predicted results (please put your PredFC here in pickle)
-- The [result_out_2](data/result_out_2) folder contains the group and individual effect 
+- The [result_out](data/result_out) folder contains the regional group and individual effect.
 
 ## `functions`
-The [functions](functions/) folder contains code and files commonly used in `code`.
-
-## `result_plot`
-
-The [result_plot](result_plot/) folder contains all figures in paper.
+The [functions](functions/) folder contains Matlab and Python functions commonly used in `code`.
 
 ## `code`
 
-- The [step01_ train_val_test_GNN](step01_train_val_test_GNN/) folder contains our proposed GNN model, and the process of training, validating, and testing the model
+- The [step01_ train_val_test_GNN](step01_train_val_test_GNN/) folder contains our proposed graph neural network model (`model.py`), and the process of training, validating, and testing the model(`train_val_test.py`). 
 
-  Run the GNN model by
-
-  ```bash
-  python train_val_test.py  --epochs 400 --batch-size 2 --lr 0.001 --layer-num 2 --conv-dim 128 --rewired 0 --reg 0.0001  --dataset HCPYA
-  ```
-
-  Train and validate the GNN model for hyperparameter tuning using `--if-kfold` for 5 fold cross-validation
-
-  Take rewired SC for training by  `--use-rewired` 
-
-  Add `--get-result` to save the predicted result in `data/result_out` folder
-
-- The [step02_ get_SC_FC_coupling](step02_get_SC_FC_coupling/) folder contains codes to generate results and figures of *Fig. 2. Structure-function coupling by GNN* and  *Fig. S1* .
-
-  Run `get_SC_mask.m` to get SC masks. 
-
-  Run `Fig2.ipynb` to get structure-function coupling and plot the Fig2. 
-
-  Run `SFig1.ipynb` to get plot the SFig1. 
-
-- The [step03_get_group_ind_effect](step03_get_group_ind_effect/) folder contains codes to generate results and figures of *Fig. 3. group and individual effect of structure-function coupling*. 
-
-  Run `get_group_ind_SC_FC.py` to get group and individual effect of SC-FC. 
+  * Run the graph neural network model by
 
   ```bash
-  python get_group_ind_SC_FC.py  --dataset HCPA --mask-type 75 # mask-type can be 25 or 75
+  python train_val_test.py  --epochs 400 --batch-size 2 --lr 0.001 --layer-num 2 --conv-dim 256 --reg 0.0001
   ```
 
-  Run `get_group_ind_PredFC_FC.py` to get group and individual effect of PredFC-FC. 
+  * Train and validate the GNN model for hyperparameter tuning using `--if-kfold` for 5 fold cross-validation.
 
-  ```bash
-  python get_group_ind_PredFC_FC.py  --dataset HCPA
-  ```
+  * Take rewired SC for training by  `--rewired`.
 
-  *Note: it highly recommended to run these two scripts in the server. Though I wrote them in parallel, it still cost much time.*
+  
 
-  Run `Fig3.ipynb` to plot the Fig3. 
+- The [step02_get_SC_FC_coupling](step02_get_SC_FC_coupling/) folder contains codes to calculate the whole-brain structure-function coupling analysis and the null model test by rewiring SC and  plot *Fig.2*  and  *Fig.S1*.
 
-- The [step04_get_regioan_group_ind_effect](step04_get_regioan_group_ind_effect/) folder contains codes to generate results and figures of *Fig. 4&Fig5. Regional group and individul effect*.
+  - Run `step_01_sc_fc_coupling_group_hcp.m` and `step_01_sc_fc_coupling_group_hcpd.m` to calculate structure-function coupling at the group level and plot the *Fig. S1*.
+  - Run `step_02_density_plot.R` to plot the density plot at *Fig2a-d*. 
+  - Run `step_03_sc_fc_coupling_rew_ind_hcp.m` amd `step_03_sc_fc_coupling_rew_ind_hcpd.m` to calculate the structure-function coupling at the individual level for the actual and the rewired conditions.
+  - Run `step_04_violin_scatter_boxplot.R` to plot the *Fig2e&f*. 
 
-  Run `get_group_ind_SC_FC_roi.py` to get regional group and individual effect of SC-FC. 
+  
 
-  ```bash
-  python get_group_ind_SC_FC_roi.py  --dataset HCPA --mask-type 75 # mask-type can be 25 or 75
-  ```
+- The [step_03_whole_brain_group_ind_effects](step_03_whole_brain_group_ind_effects/) folder contains codes to calculate the whole-brain group-common and individual-specific effects of the structure-function coupling and plot *Fig. 3* and *Fig.S4a*.
 
-  Run `get_group_ind_PredFC_FC_roi.py` to get regional group and individual effect of PredFC-FC. 
+  * Run `step_01_whole_brain_group_ind_effects_linear.m` and `step_01_whole_brain_group_ind_effects_GNN.m` to calculate the group and individual effects for the whole brain.
+  * Run  `step_02_barplot_group_linear_ind.py` and  `step_02_barplot_group_GNN_ind.py`  to plot the *Fig.3b&c*. 
 
-  ```bash
-  python get_group_ind_PredFC_FC_roi.py  --dataset HCPA
-  ```
+  * Run  `step_03_split_violin_linear.py` and  `step_03_split_violin_GNN.py` to plot the *Fig.3e&f*. 
 
-  *Note: it highly recommended to run these two scripts in the server. Though I wrote them in parallel, it still cost much time.*
+  
 
-  Run `Fig4&5.ipynb` to get the data needed for Fig4&5. 
+  Similar procedures are implemented for the schaefer200 parcellation in the sensitivity test for *Fig.S3a* by runing `step_04_whole_brain_group_ind_effects_GNN_schaefer200.m`, `step_04_pFC_eFC_group_ind_schaefer200.py`, and `step_04_split_violin_GNN_schaefer200.py` to get the whole-brain group and individual effects.
 
-  Run `get_Fig4&5_nii_from_mat.m` to nil plot for Fig4(a)-(c)&5(a)-(c). 
+  
 
-  Run `Fig4-2.ipynb` and  `Fig5-2.ipynb` to get the data needed for Fig4(d)-(f)&5(d)-(f). 
+- The [step_04_regional_group_ind_effects](step_04_regional_group_ind_effects/) folder contains codes to calculate the whole-brain group-common and individual-specific effects of the structure-function coupling and their relationship with the sensorimotor-association axis, and plot *Fig.4*, *Fig.5*,  *Fig.S3* and  *Fig.S4b-g*. 
+
+  * Run `step_01_regional_group_ind_effects_GNN.m` to calculate the regional group and individual effects at the regional level.
+
+  * Run `step_02_surfaceplot_sa_rank.R` to plot the *Fig.4a*.
+
+  * Run `step_02_surfaceplot_group_ind_effect_GNN.R` to plot the *Fig.4b&c* and *Fig. 5b&c*.
+
+  * Run `step_02_scatterplot_group_ind_effect_sa_rank_GNN.R` to plot the *Fig. 4e&f* and *Fig. 5e&f*.
+
+  * For the linear model, run `step_03_regional_group_ind_effects_linear.m` and `step_03_scatterplot_group_ind_effect_sa_rank_linear.R` to plot the *Fig.S2*.
+
+    
+
+  Similar procedures are implemented for the sensitivity test.
+
+  * For the normalized individual effects, run `step_04_surfaceplot_norm_ind_effect_single.R` and `step_04_surfaceplot_norm_ind_effect_single.R` to plot the *Fig.S3*.
+  * For the schaefer200 parcellation, run `step_05_regional_group_ind_effects_GNN_schaefer200.m`, `step_05_surfaceplot_sa_rank_GNN_schaefer200.R`, and  `step_05_surfaceplot_sa_rank_GNN_schaefer200.R` plot the *Fig.S4b-g*.

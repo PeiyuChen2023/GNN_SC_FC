@@ -74,7 +74,7 @@ data_min = min(data_vec);
 data_max = max(data_vec);
 caxis([data_min,data_max])
 
-load('cmap.mat','cmap')
+load('/Users/chenpeiyu/PycharmProjects/SC_FC_Pred/matlab/data/cmap.mat','cmap')
 colormap(cmap); 
 
 set(gca,'xtick',[],'xticklabel',[])

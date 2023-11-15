@@ -1,0 +1,101 @@
+library('ggplot2')
+
+rm(list = ls())
+working_dir <- '/Users/chenpeiyu/PycharmProjects/SC_FC_Pred/matlab/step_04_regional_group_ind_effects/'
+source('/Users/chenpeiyu/PycharmProjects/SC_FC_Pred/GNN_SC_FC/functions/replace_outliers.R')
+
+####################
+data <- read.csv(paste0(working_dir, 'hcp_pFC_eFC_group_ind_effect_schaefer200.csv'))
+data$group_effect <- data$group_effect
+data$ind_effect <- data$ind_effect
+
+outlier <- !replace_outliers(data$group_effect)$outlier
+rho <- cor.test(data[outlier,1], data[outlier,3], method = 'spearman',exact=FALSE)$estimate
+
+p <- ggplot(data = data[outlier,], mapping = aes(x = sa_rank, y = group_effect)) +
+  geom_point(size=1.5, alpha=1, shape=19, aes(color=sa_rank)) + theme_classic() + 
+  geom_smooth(method = "lm", colour = "black",linewidth = 0.7, fullrange = TRUE) +
+  theme(axis.text = element_text(size = 10, color = 'black'),axis.title = element_text(size = 10),aspect.ratio = 0.7) + 
+  labs(y = "Group-common \n structure-function coupling (r)", x = "Sensorimotor-association axis rank")+ theme(legend.position="none") + 
+  
+  #theme(axis.title.y = element_text(vjust = -1)) +
+  scale_color_gradient2(low = "#4393C3", high = "#D6604D", mid = "#F6FBFF",
+                        midpoint = 100, limit = c(0,200)) +
+  scale_y_continuous(limits = c(0.5, 0.86),breaks = seq(0.5, 0.9, by = 0.1)) +
+  scale_x_continuous(limits = c(0, 200),breaks = seq(0, 200, by = 50))
+
+p
+min(data[outlier,]$group_effect)
+max(data[outlier,]$group_effect)
+
+ggsave(paste0(working_dir,'GNN_model/corr_hcp_pFC_eFC_group_effect_sa_rank_schaefer200.png'),plot=p,width = 10,height = 10,units = "cm",dpi = 600)
+
+#
+outlier <- !replace_outliers(data$ind_effect)$outlier
+rho <- cor.test(data[outlier,2], data[outlier,3], method = 'spearman',exact=FALSE)$estimate
+
+p <- ggplot(data = data[outlier,], mapping = aes(x = sa_rank, y = ind_effect)) +
+  geom_point(size=1.5, alpha=1, shape=19, aes(color=sa_rank)) + theme_classic() + 
+  geom_smooth(method = "lm", colour = "black",linewidth = 0.7, fullrange = TRUE) +
+  theme(axis.text = element_text(size = 10, color = 'black'),axis.title = element_text(size = 10),aspect.ratio = 0.7) + 
+  labs(y = "Individual-specific \n structure-function coupling (r)", x = "Sensorimotor-association axis rank")+ theme(legend.position="none") + 
+    #theme(axis.title.y = element_text(vjust = -1)) +
+  scale_color_gradient2(low = "#4393C3", high = "#D6604D", mid = "#F6FBFF",
+                        midpoint = 100, limit = c(0,200)) + 
+  scale_y_continuous(limits = c(-0.009, 0.04),breaks = seq(-0.01, 0.04, by = 0.01)) +
+  scale_x_continuous(limits = c(0, 200),breaks = seq(0, 200, by = 50))
+
+p
+min(data[outlier,]$ind_effect)
+max(data[outlier,]$ind_effect)
+
+
+ggsave(paste0(working_dir,'GNN_model/corr_hcp_pFC_eFC_ind_effect_sa_rank_schaefer200.png'),plot=p,width = 10,height = 10,units = "cm",dpi = 600)
+
+####################
+data <- read.csv(paste0(working_dir, 'hcpd_pFC_eFC_group_ind_effect_schaefer200.csv'))
+data$group_effect <- data$group_effect
+data$ind_effect <- data$ind_effect
+
+outlier <- !replace_outliers(data$group_effect)$outlier
+rho <- cor.test(data[outlier,1], data[outlier,3], method = 'spearman',exact=FALSE)$estimate
+
+p <- ggplot(data = data[outlier,], mapping = aes(x = sa_rank, y = group_effect)) +
+  geom_point(size=1.5, alpha=1, shape=19, aes(color=sa_rank)) + theme_classic() + 
+  geom_smooth(method = "lm", colour = "black",linewidth = 0.7, fullrange = TRUE) +
+  theme(axis.text = element_text(size = 10, color = 'black'),axis.title = element_text(size = 10),aspect.ratio = 0.7) + 
+  labs(y = "Group-common \n structure-function coupling (r)", x = "Sensorimotor-association axis rank")+ theme(legend.position="none") + 
+  
+  #theme(axis.title.y = element_text(vjust = -1)) +
+  scale_color_gradient2(low = "#4393C3", high = "#D6604D", mid = "#F6FBFF",
+                        midpoint = 100, limit = c(0,200)) + 
+  scale_y_continuous(limits = c(0.48, 0.85),breaks = seq(0.5, 0.9, by = 0.1)) +
+  scale_x_continuous(limits = c(0, 200),breaks = seq(0, 200, by = 50))
+
+p
+min(data[outlier,]$group_effect)
+max(data[outlier,]$group_effect)
+
+ggsave(paste0(working_dir,'GNN_model/corr_hcpd_pFC_eFC_group_effect_sa_rank_schaefer200.png'),plot=p,width = 10,height = 10,units = "cm",dpi = 600)
+
+#
+outlier <- !replace_outliers(data$ind_effect)$outlier
+rho <- cor.test(data[outlier,2], data[outlier,3], method = 'spearman',exact=FALSE)$estimate
+
+p <- ggplot(data = data[outlier,], mapping = aes(x = sa_rank, y = ind_effect)) +
+  geom_point(size=1.5, alpha=1, shape=19, aes(color=sa_rank)) + theme_classic() + 
+  geom_smooth(method = "lm", colour = "black",linewidth = 0.7, fullrange = TRUE) +
+  theme(axis.text = element_text(size = 10, color = 'black'),axis.title = element_text(size = 10),aspect.ratio = 0.7) + 
+  labs(y = "Individual-specific \n structure-function coupling (r)", x = "Sensorimotor-association axis rank")+ theme(legend.position="none") + 
+  #theme(axis.title.y = element_text(vjust = -1)) +
+  scale_color_gradient2(low = "#4393C3", high = "#D6604D", mid = "#F6FBFF",
+                        midpoint = 100, limit = c(0,200)) + 
+  scale_y_continuous(limits = c(-0.012, 0.04),breaks = seq(-0.01, 0.04, by = 0.01)) +
+  scale_x_continuous(limits = c(0, 200),breaks = seq(0, 200, by = 50))
+
+p
+
+min(data[outlier,]$ind_effect)
+max(data[outlier,]$ind_effect)
+
+ggsave(paste0(working_dir,'GNN_model/corr_hcpd_pFC_eFC_ind_effect_sa_rank_schaefer200.png'),plot=p,width = 10,height = 10,units = "cm",dpi = 600)
