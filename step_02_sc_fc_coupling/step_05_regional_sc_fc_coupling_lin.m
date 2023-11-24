@@ -1,10 +1,6 @@
 clear
 clc
 
-
-%% S-A rank correlation
-[sa_rank,~,sa_rank_raw] = xlsread('/Users/chenpeiyu/PycharmProjects/SC_FC_Pred/matlab/data/schaefer400_sa_rank.xlsx');
-
 addpath(genpath('/Users/chenpeiyu/PycharmProjects/SC_FC_Pred/GNN_SC_FC/functions/'))
 working_dir = '/Users/chenpeiyu/PycharmProjects/SC_FC_Pred/matlab/step_02_sc_fc_coupling/';
 
@@ -62,22 +58,11 @@ for roi_i = 1:400
     end
 end
 
+hcp.lin_cp = mean(SC_eFC_corr_hcp, 2);
+hcp = struct2table(hcp);
+writetable(hcp,[working_dir '/region_hcp_SC_eFC_cp.csv'])
 
 
-sa_rank_raw(1,1:2) = {'label','lin_cp'};
-sa_rank_raw(2:401,2) = num2cell(mean(SC_eFC_corr_hcp, 2));
-
-for i = 2:201
-    sa_rank_raw{i,1} = ['lh_' sa_rank_raw{i,1}];
-end
-
-for i = 202:401
-    sa_rank_raw{i,1} = ['rh_' sa_rank_raw{i,1}];
-end
-
-writecell(sa_rank_raw(:, 1:2),[working_dir '/region_hcp_SC_eFC_cp.csv'])
-
-
-sa_rank_raw(2:401,2) = num2cell(mean(SC_eFC_corr_hcpd, 2));
-writecell(sa_rank_raw(:, 1:2),[working_dir '/region_hcpd_SC_eFC_cp.csv'])
-
+hcpd.lin_cp = mean(SC_eFC_corr_hcpd, 2);
+hcpd = struct2table(hcpd);
+writetable(hcpd,[working_dir '/region_hcpd_SC_eFC_cp.csv'])

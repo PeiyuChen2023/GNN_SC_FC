@@ -50,6 +50,8 @@ The [functions](functions/) folder contains Matlab and Python functions commonly
   - Run `step_02_density_plot.R` to plot the density plot at *Fig2a-d*. 
   - Run `step_03_sc_fc_coupling_rew_ind_hcp.m` amd `step_03_sc_fc_coupling_rew_ind_hcpd.m` to calculate the structure-function coupling at the individual level for the actual and the rewired conditions.
   - Run `step_04_violin_scatter_boxplot.R` to plot the *Fig2e&f*. 
+  - Run `step_05_regional_sc_fc_coupling_lin.m` and `step_05_regional_sc_fc_coupling_GNN.m` to calculate the regional structure-function coupling.
+  - Run `step_06_surfaceplot_cp_linear.R` and `step_06_surfaceplot_cp_GNN` to plot the  *Fig2g-j*. 
 
   
 
